@@ -42,7 +42,7 @@ WITH AUTHKEY AS (
                 0004178499001826553, 0004178499011812098, 0006400000000165095, 0006400000000165103
             )                                         
             -- FILTRO MES CERRADO (M-1)
-            AND DATE_TRUNC(RRHEADER_PROC_DATE_CYMD, MONTH) = DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH)
+            AND DATE_TRUNC(RRHEADER_PROC_DATE_CYMD, MONTH) = DATE_TRUNC(DATE_SUBCURRENT_DATE('America/Mexico_City'), INTERVAL 1 MONTH), MONTH)
     )
 ),
 
@@ -79,7 +79,7 @@ AC_MANUAL AS (
     FROM `crp-pro-dwh-semanticagold.EIL_DP_VDWH.VFAC_SDO_CTA_AUT` A                                        
     LEFT JOIN `crp-pro-dwh-semanticagold.EIL_DP_VDWH.VDIM_CTA_TRACK` AS B                                          
         ON A.CTA_CVE = B.CTA_CVE                                            
-    WHERE DATE_TRUNC(FCH_FCH, MONTH) = DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH)
+    WHERE DATE_TRUNC(FCH_FCH, MONTH) = DATE_TRUNC(DATE_SUB(CURRENT_DATE('America/Mexico_City'), INTERVAL 1 MONTH), MONTH)
     GROUP BY ALL                                            
 ),
 
@@ -127,8 +127,8 @@ SDO_CTA_MES AS (
         ON A.CTA_CVE = B.CTA_CVE                                            
     WHERE A.TIP_INF IN (100,110,210,200,220,230)                                          
         -- FILTRO MES CERRADO (M-1)
-        AND A.ANIO = EXTRACT(YEAR FROM DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-        AND A.MES = EXTRACT(MONTH FROM DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
+        AND A.ANIO = EXTRACT(YEAR FROM DATE_SUB(CURRENT_DATE('America/Mexico_City'), INTERVAL 1 MONTH))
+        AND A.MES = EXTRACT(MONTH FROM DATE_SUB(CURRENT_DATE('America/Mexico_City'), INTERVAL 1 MONTH))
         AND A.CTA_EDO_CVE NOT IN ('T')                                         
 ),
 
